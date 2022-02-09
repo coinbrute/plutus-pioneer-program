@@ -57,3 +57,61 @@ scrAddress = scriptAddress validator
 Address {addressCredential = ScriptCredential 67f33146617a5e61936081db3b2117cbf59bd2123748f58ac9678656, addressStakingCredential = Nothing}
 -}
 
+-- schema for off-chain code
+-- type definition for endpoint
+-- endpoint gives a user a way to trigger something and give input data 
+type GiftSchema =
+            Endpoint "give" Integer -- takes Integer param
+        .\/ Endpoint "grab" () -- takes nothing i.e. () param
+
+-- takes the integer amount of lovlace to put into address
+give :: AsContractError e => Integer -> Contract w s e ()
+give amount = do
+    -- get the Ada lovelace value from the amount passed in 
+        -- create a tx with the valHash and a Datum. in this case an arbitrary one
+    -- so this transaction must pay amount in lovelace to otherscript with Datum from valHash provided
+    let tx = mustPayToOtherScript valHash (Datum $ Builtins.mkI 0) $ Ada.lovelaceValueOf amount 
+    -- submit the tx 
+    ledgerTx <- submitTx tx
+    -- await confirmation of tx
+    void $ awaitTxConfirmed $ getCardanoTxId ledgerTx
+    -- log info out
+    logInfo @String $ printf "made a gift of %d lovelace" amount
+
+-- looks up all utxo at scrAddress
+    -- get the refs to those utxo's 
+    -- to consume utxo at a script address then the spending transaction needs to provide the validator code
+        -- the producing transaction needs to provide only the hash 
+grab :: forall w s e. AsContractError e => Contract w s e ()
+grab = do
+    -- get the utxos at script address
+    utxos <- utxosAt scrAddress
+    -- get the refs to those utxo's 
+    let orefs   = fst <$> Map.toList utxos
+        -- lookups are the utxos' from the validator
+        lookups = Constraints.unspentOutputs utxos      <>
+                  Constraints.otherScript validator
+        -- define the tx 
+        tx :: TxConstraints Void Void
+            -- transaction being constructed must spend that utxo 
+            -- give a ref to it 
+        tx      = mconcat [mustSpendScriptOutput oref $ Redeemer $ Builtins.mkI 17 | oref <- orefs]
+    -- submit tx with the lookup constraints
+    ledgerTx <- submitTxConstraintsWith @Void lookups tx
+    -- wait for confirmation
+    void $ awaitTxConfirmed $ getCardanoTxId ledgerTx
+    -- log info
+    logInfo @String $ "collected gifts"
+
+-- make endpoints available waiting for responses and continuing recursively
+endpoints :: Contract () GiftSchema Text ()
+endpoints = awaitPromise (give' `select` grab') >> endpoints
+  where
+    give' = endpoint @"give" give
+    grab' = endpoint @"grab" $ const grab
+
+-- generate schemas 
+mkSchemaDefinitions ''GiftSchema
+
+-- make ada available
+mkKnownCurrencies []
