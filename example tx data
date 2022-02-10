@@ -1,0 +1,756 @@
+Object (
+  fromList [
+    (
+      "mkTxLogLookups",
+      Object (
+        fromList [
+          (
+            "slMPS",
+            Array []
+          ),
+          (
+            "slOtherData",
+            Array []
+          ),
+          (
+            "slOtherScripts",
+            Array [
+              Array [
+                String "2e6427fccd7601316365bb820a55fdfb2d00bf11bfb42ef4492f8142",
+                Object (
+                  fromList [
+                    (
+                      "getValidator",
+                      String "4c010000332222261200120011"
+                    )
+                  ]
+                )
+              ]
+            ]
+          ),
+          (
+            "slOwnPaymentPubKeyHash",
+            Null
+          ),
+          (
+            "slOwnStakePubKeyHash",
+            Null
+          ),
+          (
+            "slPaymentPubKeyHashes",
+            Array []
+          ),
+          (
+            "slTxOutputs",
+            Array [
+              Array [
+                Object (
+                  fromList [
+                    (
+                      "txOutRefId",
+                      Object (
+                        fromList [
+                          (
+                            "getTxId",
+                            String "08ceccd034368e62378f4d5ba9c65e2d9ac06d150f5c6f221f88b921b37a3b7b"
+                          )
+                        ]
+                      )
+                    ),
+                    (
+                      "txOutRefIdx",
+                      Number 1.0
+                    )
+                  ]
+                ),
+                Object (
+                  fromList [
+                    (
+                      "_ciTxOutAddress",
+                      Object (
+                        fromList [
+                          (
+                            "addressCredential",
+                            Object (
+                              fromList [
+                                (
+                                  "contents",
+                                  String "2e6427fccd7601316365bb820a55fdfb2d00bf11bfb42ef4492f8142"
+                                ),
+                                (
+                                  "tag",
+                                  String "ScriptCredential"
+                                )
+                              ]
+                            )
+                          ),
+                          (
+                            "addressStakingCredential",
+                            Null
+                          )
+                        ]
+                      )
+                    ),
+                    (
+                      "_ciTxOutDatum",
+                      Object (
+                        fromList [
+                          (
+                            "Right",
+                            String "00"
+                          )
+                        ]
+                      )
+                    ),
+                    (
+                      "_ciTxOutValidator",
+                      Object (
+                        fromList [
+                          (
+                            "Left",
+                            String "2e6427fccd7601316365bb820a55fdfb2d00bf11bfb42ef4492f8142"
+                          )
+                        ]
+                      )
+                    ),
+                    (
+                      "_ciTxOutValue",
+                      Object (
+                        fromList [
+                          (
+                            "getValue",
+                            Array [
+                              Array [
+                                Object (
+                                  fromList [
+                                    (
+                                      "unCurrencySymbol",
+                                      String ""
+                                    )
+                                  ]
+                                ),
+                                Array [
+                                  Array [
+                                    Object (
+                                      fromList [
+                                        (
+                                          "unTokenName",
+                                          String ""
+                                        )
+                                      ]
+                                    ),
+                                    Number 6000000.0
+                                  ]
+                                ]
+                              ]
+                            ]
+                          )
+                        ]
+                      )
+                    ),
+                    (
+                      "tag",
+                      String "ScriptChainIndexTxOut"
+                    )
+                  ]
+                )
+              ],
+              Array [
+                Object (
+                  fromList [
+                    (
+                      "txOutRefId",
+                      Object (
+                        fromList [
+                          (
+                            "getTxId",
+                            String "da46f87c94f468a88f42b6090efab2d3a49d60876d29934a1b35fc49cee0ba18"
+                          )
+                        ]
+                      )
+                    ),
+                    (
+                      "txOutRefIdx",
+                      Number 1.0
+                    )
+                  ]
+                ),
+                Object (
+                  fromList [
+                    (
+                      "_ciTxOutAddress",
+                      Object (
+                        fromList [
+                          (
+                            "addressCredential",
+                            Object (
+                              fromList [
+                                (
+                                  "contents",
+                                  String "2e6427fccd7601316365bb820a55fdfb2d00bf11bfb42ef4492f8142"
+                                ),
+                                (
+                                  "tag",
+                                  String "ScriptCredential")])),("addressStakingCredential",
+                                  Null
+                                )
+                              ]
+                            )
+                          ),
+                          (
+                            "_ciTxOutDatum",
+                            Object (
+                              fromList [
+                                (
+                                  "Right",
+                                  String "00"
+                                )
+                              ]
+                            )
+                          ),
+                          (
+                            "_ciTxOutValidator",
+                            Object (
+                              fromList [
+                                (
+                                  "Left",
+                                  String "2e6427fccd7601316365bb820a55fdfb2d00bf11bfb42ef4492f8142"
+                                )
+                              ]
+                            )
+                          ),
+                          (
+                            "_ciTxOutValue",
+                            Object (
+                              fromList [
+                                (
+                                  "getValue",
+                                  Array [
+                                    Array [
+                                      Object (
+                                        fromList [
+                                          (
+                                            "unCurrencySymbol",
+                                            String ""
+                                          )
+                                        ]
+                                      ),
+                                      Array [
+                                        Array [
+                                          Object (
+                                            fromList [
+                                              (
+                                                "unTokenName",
+                                                String ""
+                                              )
+                                            ]
+                                          ),
+                                          Number 4000000.0
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                )
+                              ]
+                            )
+                          ),
+                          (
+                          "tag",
+                          String "ScriptChainIndexTxOut"
+                        )
+                      ]
+                    )
+                  ]
+                ]
+              ),
+              (
+                "slTypedValidator",
+                Null
+              )
+            ]
+      )
+    ),
+    (
+      "mkTxLogResult",
+      Object (
+        fromList [
+          (
+            "Right",
+            Object (
+              fromList [
+                (
+                  "unBalancedTxRequiredSignatories",
+                  Array []
+                ),
+                (
+                  "unBalancedTxTx",
+                  Object (
+                    fromList [
+                      (
+                        "txCollateral",
+                        Array []
+                      ),
+                      (
+                        "txData",
+                        Array [
+                          Array [
+                            String "03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c111314",
+                            String "00"
+                          ]
+                        ]
+                      ),
+                      (
+                        "txFee",
+                        Object (
+                          fromList [
+                            (
+                              "getValue",
+                              Array []
+                            )
+                          ]
+                        )
+                      ),
+                      (
+                        "txInputs",
+                        Array [
+                          Object (
+                            fromList [
+                              (
+                                "txInRef",
+                                Object (
+                                  fromList [
+                                    (
+                                      "txOutRefId",
+                                      Object (
+                                        fromList [
+                                          (
+                                            "getTxId",
+                                            String "08ceccd034368e62378f4d5ba9c65e2d9ac06d150f5c6f221f88b921b37a3b7b"
+                                          )
+                                        ]
+                                      )
+                                    ),
+                                    (
+                                      "txOutRefIdx",
+                                      Number 1.0
+                                    )
+                                  ]
+                                )
+                              ),
+                              (
+                                "txInType",
+                                Object (
+                                  fromList [
+                                    (
+                                      "contents",
+                                      Array [
+                                        Object (
+                                          fromList [
+                                            (
+                                              "getValidator",
+                                              String "4c010000332222261200120011"
+                                            )
+                                          ]
+                                        ),
+                                        String "11",
+                                        String "00"
+                                      ]
+                                    ),
+                                    (
+                                      "tag",
+                                      String "ConsumeScriptAddress"
+                                    )
+                                  ]
+                                )
+                              )
+                            ]
+                          ),
+                          Object (
+                            fromList [
+                              (
+                                "txInRef",
+                                Object (
+                                  fromList [
+                                    (
+                                      "txOutRefId",
+                                      Object (
+                                        fromList [
+                                          (
+                                            "getTxId",
+                                            String "da46f87c94f468a88f42b6090efab2d3a49d60876d29934a1b35fc49cee0ba18"
+                                          )
+                                        ]
+                                      )
+                                    ),
+                                    (
+                                      "txOutRefIdx",
+                                      Number 1.0
+                                    )
+                                  ]
+                                )
+                              ),
+                              (
+                                "txInType",
+                                Object (
+                                  fromList [
+                                    (
+                                      "contents",
+                                      Array [
+                                        Object (
+                                          fromList [
+                                            (
+                                              "getValidator",
+                                              String "4c010000332222261200120011"
+                                            )
+                                          ]
+                                        ),
+                                        String "11",
+                                        String "00"
+                                      ]
+                                    ),
+                                    (
+                                      "tag",
+                                      String "ConsumeScriptAddress"
+                                    )
+                                  ]
+                                )
+                              )
+                            ]
+                          )
+                        ]
+                    ),
+                    (
+                      "txMint",
+                      Object (
+                        fromList [
+                          (
+                            "getValue",
+                            Array []
+                          )
+                        ]
+                      )
+                    ),
+                    (
+                      "txMintScripts",
+                      Array []
+                    ),
+                    (
+                      "txOutputs",
+                      Array []
+                    ),
+                    (
+                      "txRedeemers",
+                      Array []
+                    ),
+                    (
+                      "txSignatures",
+                      Array []
+                    ),
+                    (
+                      "txValidRange",
+                      Object (
+                        fromList [
+                          (
+                            "ivFrom",
+                            Array [
+                              Object (
+                                fromList [
+                                  (
+                                    "tag",
+                                    String "NegInf"
+                                  )
+                                ]
+                              ),
+                              Bool True
+                            ]
+                          ),
+                          (
+                            "ivTo",
+                            Array [
+                              Object (
+                                fromList [
+                                  (
+                                    "tag",
+                                    String "PosInf"
+                                  )
+                                ]
+                              ),
+                              Bool True
+                            ]
+                          )
+                        ]
+                      )
+                    )
+                  ]
+                )
+                ),
+                (
+                  "unBalancedTxUtxoIndex",
+                  Array [
+                    Array [
+                      Object (
+                        fromList [
+                          (
+                            "txOutRefId",
+                            Object (
+                              fromList [
+                                (
+                                  "getTxId",
+                                  String "08ceccd034368e62378f4d5ba9c65e2d9ac06d150f5c6f221f88b921b37a3b7b"
+                                )
+                              ]
+                            )
+                          ),
+                          (
+                            "txOutRefIdx",
+                            Number 1.0
+                          )
+                        ]
+                      ),
+                      Object (
+                        fromList [
+                          (
+                            "scriptOutputDatumHash",
+                            String "03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c111314"
+                          ),
+                          (
+                            "scriptOutputValidatorHash",
+                            String "2e6427fccd7601316365bb820a55fdfb2d00bf11bfb42ef4492f8142"
+                          ),
+                          (
+                            "scriptOutputValue",
+                            Object (
+                              fromList [
+                                (
+                                  "getValue",
+                                  Array [
+                                    Array [
+                                      Object (
+                                        fromList [
+                                          (
+                                            "unCurrencySymbol",
+                                            String ""
+                                          )
+                                        ]
+                                      ),
+                                      Array [
+                                        Array [
+                                          Object (
+                                            fromList [
+                                              (
+                                                "unTokenName",
+                                                String ""
+                                              )
+                                            ]
+                                          ),
+                                          Number 6000000.0
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                )
+                              ]
+                            )
+                          )
+                        ]
+                      )
+                    ],
+                    Array [
+                      Object (
+                        fromList [
+                          (
+                            "txOutRefId",
+                            Object (
+                              fromList [
+                                (
+                                  "getTxId",
+                                  String "da46f87c94f468a88f42b6090efab2d3a49d60876d29934a1b35fc49cee0ba18"
+                                )
+                              ]
+                            )
+                          ),
+                          (
+                            "txOutRefIdx",
+                            Number 1.0
+                          )
+                        ]
+                      ),
+                      Object (
+                        fromList [
+                          (
+                            "scriptOutputDatumHash",
+                            String "03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c111314"
+                          ),
+                          (
+                            "scriptOutputValidatorHash",
+                            String "2e6427fccd7601316365bb820a55fdfb2d00bf11bfb42ef4492f8142"
+                          ),
+                          (
+                            "scriptOutputValue",
+                            Object (
+                              fromList [
+                                (
+                                  "getValue",
+                                  Array [
+                                    Array [
+                                      Object (
+                                        fromList [
+                                          (
+                                            "unCurrencySymbol",
+                                            String ""
+                                          )
+                                        ]
+                                      ),
+                                      Array [
+                                        Array [
+                                          Object (
+                                            fromList [
+                                              (
+                                                "unTokenName",
+                                                String ""
+                                              )
+                                            ]
+                                          ),
+                                          Number 4000000.0
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                )
+                              ]
+                            )
+                          )
+                        ]
+                      )
+                    ]
+                  ]
+                ),
+                (
+                  "unBalancedTxValidityTimeRange",
+                  Object (
+                    fromList [
+                      (
+                        "ivFrom",
+                        Array [
+                          Object (
+                            fromList [
+                              (
+                                "tag",
+                                String "NegInf"
+                              )
+                            ]
+                          ),
+                          Bool True
+                        ]
+                      ),
+                      (
+                        "ivTo",
+                        Array [
+                          Object (
+                            fromList [
+                              (
+                                "tag",
+                                String "PosInf"
+                              )
+                            ]
+                          ),
+                          Bool True
+                        ]
+                      )
+                    ]
+                  )
+                )
+              ]
+            )
+          )
+        ]
+      )
+    ),
+    (
+      "mkTxLogTxConstraints",
+      Object (
+        fromList [
+          (
+            "txConstraints",
+            Array [
+              Object (
+                fromList [
+                  (
+                    "contents",
+                    Array [
+                      Object (
+                        fromList [
+                          (
+                            "txOutRefId",
+                            Object (
+                              fromList [
+                                (
+                                  "getTxId",
+                                  String "08ceccd034368e62378f4d5ba9c65e2d9ac06d150f5c6f221f88b921b37a3b7b"
+                                )
+                              ]
+                            )
+                          ),
+                          (
+                            "txOutRefIdx",
+                            Number 1.0
+                          )
+                        ]
+                      ),
+                      String "11"
+                    ]
+                  ),
+                  (
+                    "tag",
+                    String "MustSpendScriptOutput"
+                  )
+                ]
+              ),
+              Object (
+                fromList [
+                  (
+                    "contents",
+                    Array [
+                      Object (
+                        fromList [
+                          (
+                            "txOutRefId",
+                            Object (
+                              fromList [
+                                (
+                                  "getTxId",
+                                  String "da46f87c94f468a88f42b6090efab2d3a49d60876d29934a1b35fc49cee0ba18"
+                                )
+                              ]
+                            )
+                          ),
+                          (
+                            "txOutRefIdx",
+                            Number 1.0
+                          )
+                        ]
+                      ),
+                      String "11"
+                    ]
+                  ),
+                  (
+                    "tag",
+                    String  "MustSpendScriptOutput"
+                  )
+                ]
+              )
+            ]
+          ),
+          (
+            "txOwnInputs",
+            Array []
+          ),
+          (
+            "txOwnOutputs",
+            Array []
+          )
+        ]
+      )
+    )
+  ]
+)
