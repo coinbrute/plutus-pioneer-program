@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds           #-}
 {-# LANGUAGE FlexibleContexts    #-}
 {-# LANGUAGE NoImplicitPrelude   #-} -- no ghc prelude use the imported plutus one instead
-{-# LANGUAGE OverloadedStrings   #-}
+{-# LANGUAGE OverloadedStrings   #-} -- convertes Haskell Strings to Plutus Bytestrings
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell     #-}
 {-# LANGUAGE TypeApplications    #-}
@@ -40,7 +40,7 @@ import           Text.Printf         (printf)
 -- () is a type unit similar to type void in imperative languages 
 -- in this case we are returning out a special error function that takes the () "unit" as a parameter.
 mkValidator :: BuiltinData -> BuiltinData -> BuiltinData -> ()
-mkValidator _ _ _ = error () -- always fails no matter what the input
+mkValidator _ _ _ = traceError "BURNT!" -- always fails no matter what the input
 -- this basically would be a validator saying whatever ada is passed in will never become available to anyone else
 
 validator :: Validator
@@ -69,7 +69,7 @@ give amount = do
 
 grab :: forall w s e. AsContractError e => Contract w s e ()
 grab = do
-    utxos <- utxosAt scrAddress
+    utxos <- utxosAt srcAddress
     let orefs   = fst <$> Map.toList utxos
         lookups = Constraints.unspentOutputs utxos      <>
                   Constraints.otherScript validator
