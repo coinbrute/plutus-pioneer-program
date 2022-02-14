@@ -53,8 +53,8 @@ validator = mkValidatorScript $$(PlutusTx.compile [|| mkValidator ||]) -- uses t
 valHash :: Ledger.ValidatorHash -- hash of the validator
 valHash = Scripts.validatorHash validator
 
-srcAddress :: Ledger.Address
-srcAddress = scriptAddress validator
+scrAddress :: Ledger.Address
+scrAddress = scriptAddress validator
 
 type GiftSchema =
             Endpoint "give" Integer
@@ -69,7 +69,7 @@ give amount = do
 
 grab :: forall w s e. AsContractError e => Contract w s e ()
 grab = do
-    utxos <- utxosAt srcAddress
+    utxos <- utxosAt scrAddress
     let orefs   = fst <$> Map.toList utxos
         lookups = Constraints.unspentOutputs utxos      <>
                   Constraints.otherScript validator
