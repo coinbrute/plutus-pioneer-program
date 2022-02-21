@@ -57,3 +57,36 @@ bar = getLine >>= \s -> -- bind the gotten string to lambda var s
       getLine >>= \t -> -- bind the gotten string to lambda var t
       putStrLn (s ++ t) -- output both concatted 
 -}
+
+-- similarly to IO the Maybe Either and Writer class each also have bind or side effect functions to handle things in the class like IO
+-- below are some of them 
+
+-- (>>=)      :: IO a            -> (a -> IO b)            -> IO b
+-- bindMaybe  :: Maybe a         -> (a -> Maybe b)         -> Maybe b
+-- bindEither :: Either String a -> (a -> Either String b) -> Either String b
+-- bindWriter :: Writer a        -> (a -> Writer b)        -> Writer b
+
+-- you can also have the option to return something with no side effects
+-- these are those options for these modules
+
+-- return              :: a -> IO a
+-- Just                :: a -> Maybe a
+-- Right               :: a -> Either String a
+-- (\a -> Writer a []) :: a -> Writer a
+
+-- The big thing to take away from monad is its a type that has two main features Bind and Return 
+      -- bind allows you to take some type and apply something to it to return some other type
+            -- it combines the computations together
+            -- if the first computation fails the whole thing fails
+                  -- this is dependant on the monad though
+      -- retun allows you to return something that could potentially fail
+            -- a writer can log a message out or it may not. 
+            -- a maybe can maybe give a value or it can give nothing 
+            -- an either can give either one or the other
+-- a monad is a overloader it allows encompassing abilities to be contained in a typeclass of monad with overarching abilities to be used or required
+-- "do" notation is widely used in monadic computation
+      -- just syntactic sugar and operates similarly to lambda bindings by binding output of one function to the next and operating in a linear fashion from one call to the next if one fails per monad type rules the whole may fail or may not.
+            -- the left of the (<-) is what the result is bound to
+-- "let" notation is often used as well within a do block
+      -- the "in" keyword is not required in a do block
+      -- used to bind a specific keyword 
