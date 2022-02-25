@@ -207,73 +207,114 @@ retrieveSwaps oracle = do
             logInfo @String $ "retrieved " ++ show (length xs) ++ " swap(s)"
 
 -- this is the meat and potatoes where a swap occurs and things are happenin'
+  -- here is where we make use of the oracle 
 useSwap :: forall w s. Oracle -> Contract w s Text ()
 useSwap oracle = do
+    -- here we look up our own funds from the Funds module which adds up all the funds we own 
+      -- funds is type Value
     funds <- ownFunds
+    --  we check the amount of tokens from the oracle that I have 
+      -- oAsset is a tuple of AssetClass (opSymbol op, opToken op)
     let amt = assetClassValueOf funds $ oAsset oracle
+    -- log the message 
     logInfo @String $ "available assets: " ++ show amt
-
+    -- this comes from core and we find the oracle that contains the utxo and the value
+      -- this may contain several swaps 
     m <- findOracle oracle
     case m of
         Nothing           -> logInfo @String "oracle not found"
+        -- we find it
         Just (oref, o, x) -> do
+            -- log message
             logInfo @String $ "found oracle, exchange rate " ++ show x
+            -- check our own public key
             pkh   <- pubKeyHash <$> Contract.ownPubKey
+            -- check for swaps where owner is not us
             swaps <- findSwaps oracle (/= pkh)
+            -- given predicate on elements of list for amount find a suitable utxo from swaps that meets condition
             case find (f amt x) swaps of
                 Nothing                -> logInfo @String "no suitable swap found"
+                -- we found a swap we grab the first one
                 Just (oref', o', pkh') -> do
+                    -- this is the output for the oracle
+                    -- so the existing value for the oracle (o)
+                      -- so we take the existing value and add our value 
                     let v       = txOutValue (txOutTxOut o) <> lovelaceValueOf (oFee oracle)
+                        -- (p) is the price we have to pay
+                          -- we take oAsset and apply AssetClassValue and apply the price helper function to the lovelaces values for the outValue and the txOutTxOut from o prime all with the amount
                         p       = assetClassValue (oAsset oracle) $ price (lovelaces $ txOutValue $ txOutTxOut o') x
+                        -- provide the validator for swap and oracle 
+                        -- provide the utxos for oracle and swap i.e. oref and oref'
                         lookups = Constraints.otherScript (swapValidator oracle)                     <>
                                   Constraints.otherScript (oracleValidator oracle)                   <>
                                   Constraints.unspentOutputs (Map.fromList [(oref, o), (oref', o')])
+                        -- first we must use the oracle as an input
+                        -- we must use the Use redeemer
                         tx      = Constraints.mustSpendScriptOutput oref  (Redeemer $ PlutusTx.toBuiltinData Use) <>
+                                  -- we must consume the swap input
                                   Constraints.mustSpendScriptOutput oref' (Redeemer $ PlutusTx.toBuiltinData ())  <>
+                                  -- we must pay to the oracle
+                                    -- this is the oracleValidator i.e. the oracle 
                                   Constraints.mustPayToOtherScript
                                     (validatorHash $ oracleValidator oracle)
                                     (Datum $ PlutusTx.toBuiltinData x)
                                     v                                                                             <>
+                                  -- ,ustpay the seller of the lovelace
                                   Constraints.mustPayToPubKey pkh' p
                     ledgerTx <- submitTxConstraintsWith @Swapping lookups tx
                     awaitTxConfirmed $ txId ledgerTx
                     logInfo @String $ "made swap with price " ++ show (Value.flattenValue p)
   where
     getPrice :: Integer -> TxOutTx -> Integer
+    -- 
     getPrice x o = price (lovelaces $ txOutValue $ txOutTxOut o) x
 
+    -- predicate used for find suitable utxo
     f :: Integer -> Integer -> (TxOutRef, TxOutTx, PubKeyHash) -> Bool
+    -- only care about out amout
+      -- we check that the price is at most as high as the token we own using getPrice above
     f amt x (_, o, _) = getPrice x o <= amt
 
+-- schema definition with four endpoints 
 type SwapSchema =
-            Endpoint "offer"    Integer
-        .\/ Endpoint "retrieve" ()
-        .\/ Endpoint "use"      ()
-        .\/ Endpoint "funds"    ()
+            Endpoint "offer"    Integer -- provide Integer amount to offer
+        .\/ Endpoint "retrieve" () -- retrieves all swaps
+        .\/ Endpoint "use"      () -- does a swap
+        .\/ Endpoint "funds"    () -- gives available funds
 
+-- uses the (select) operator to wait until one endpoint is picked then executes that one
+  -- so the endpoints are continuously offered over and over
 swap :: Oracle -> Contract (Last Value) SwapSchema Text ()
 swap oracle = (offer `select` retrieve `select` use `select` funds) >> swap oracle
   where
+    -- we block the endpoint until an amount is provided then the offerSwap is called on the @"offer" endpoint along with the oracle contract
     offer :: Contract (Last Value) SwapSchema Text ()
     offer = h $ do
         amt <- endpoint @"offer"
         offerSwap oracle amt
 
+    -- retrieve calls the @"retrieve" endpoint then the retrieveSwaps function using the oracle Contract
     retrieve :: Contract (Last Value) SwapSchema Text ()
     retrieve = h $ do
         endpoint @"retrieve"
         retrieveSwaps oracle
 
+    -- this is the same as retrieve but with the @"use"
     use :: Contract (Last Value) SwapSchema Text ()
     use = h $ do
         endpoint @"use"
         useSwap oracle
 
+    -- we get ownFund from Funds module 
+      -- we bind and tell it and lock to state 
+        -- this makes it possible to view it from the outside
     funds :: Contract (Last Value) SwapSchema Text ()
     funds = h $ do
         endpoint @"funds"
         v <- ownFunds
         tell $ Last $ Just v
 
+    -- this is just an error handler and we just log the error
+      -- we just wrap them all in this error handler
     h :: Contract (Last Value) SwapSchema Text () -> Contract (Last Value) SwapSchema Text ()
     h = handleError logError
