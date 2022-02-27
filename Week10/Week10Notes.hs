@@ -1,0 +1,89 @@
+-- this weeks lecture goes through a end to end walkthrough for a uniswap clone contract from the ethereum platform
+
+-- the one new thing gone over this week is how to query api endpoints using curl commands 
+
+-- so what is uniswap?
+ -- it is a defi application to allow swapping of tokens on ethereum without any central authority
+ -- everything is governed by smart contracts
+ -- uniswap doesn't discover prices through an order book but rather through an automatic price discovery tool
+ -- users stake tokens into liquidity pools and then other users use those pools to swap 
+  -- they insert some of some token in for the token in the pool
+ -- they can also burn liquidity tokens they own for some of the tokens in the pool
+
+-- in cardano it would work like this
+ -- starts with a transaction creating a utxo that creates a Factory holding a nft with a datum holding a list of all liquidity pools 
+ -- say alice wants to create lp for token a to b
+  -- she need an amount of a and b say 1000 a and 2000 b
+   -- so 1 a == 2 b
+  -- she creates a tx with 2 inputs and 3 outputs
+   -- the inputs are 
+    -- the liquidity alice wants to provide 
+     -- the 1000 a and 2000 b
+    -- and the create redeemer call to the Factory holding the list of lp's
+   -- the outputs are
+    -- the newly created pool
+     -- contains the liquidity alice provided along with a newly minted nft identifying the pool
+      -- the datum of the pool is the amount of liquidity tokens alice recieves for creating the pool
+       -- the number is the square root of the product of 1000 and 2000
+    -- the factory containing nft and the datum with the updated list now containing the pool
+    -- alice with the newly minted liquidity tokens
+  -- now other users can use the pool to swap
+  -- say bob wants to swap
+  -- he creates a tx with two inputs and two outputs
+   -- the inputs are
+    -- his amount of A to swap say 100 
+    -- the pool with the swap redeemer
+   -- the outputs are 
+    -- his amount of B so 181
+    -- the pool with the swap updated
+     -- the datum doesn't change
+    -- where does the 181 b come from?
+     -- bob doesn't get a straight 200 b since the lp can't ever go to 0 he gets a slightly smaller amount to account for supply and demand as well as to factor for the price discovery product formula
+     -- the other reason is fees which is built into the product formula 
+  -- now say charlie wants to up the price ratio and he wants to add tokens 
+   -- he creates a tx with two inputs and two outpus 
+    -- the inputs are
+     -- the Add redeemer call to the pool 
+     -- his liquidity contribution
+    -- the outputs are
+     -- the updated pool with the new datum with the additional contributions
+     -- charlies liquidity tokens
+  -- say alice wants to burn liquidity tokens 
+   -- she creates a tx with two inputs and two outpus
+    -- the inputs are 
+     -- her liquidity tokens to burn
+     -- the pool with the remove redeemer
+    -- the outputs are
+     -- the tokens she received in exchange for the liquidity tokens
+     -- the updated pool with the new datum reflecting the change
+  -- say charlie now wants to close down the pool
+   -- he can only do this once all funds are removed 
+   -- he would create a tx with 3 inputs and 2 outputs
+    -- the inputs are
+     -- the factory called with the redeemer Close
+      -- we only interact with factories to start or close pools down
+      -- factories track the pools
+     -- the pool we want to close
+     -- all the remaining liquidity tokens
+    -- the outputs are
+     -- the updated factory
+      -- in this case it would be a factory with a datum of empty list since this was the only pool
+     -- charlie with his tokens from the liquidity pool
+    
+-- Plutus.Contracts.Uniswap is where the majority of the useful code will live for this stuff
+ -- it exports five other modules as well
+  -- Plutus.Contracts.Uniswap.OnChain
+   -- contains on chain validation
+  -- Plutus.Contracts.Uniswap.OffChain
+   -- contains off chain code
+  -- Plutus.Contracts.Uniswap.Types
+   -- common plutus uniswap types
+  -- Plutus.Contracts.Uniswap.Pool
+   -- business logic
+    -- burn logic 
+    -- swap logic
+    -- mint logic
+  -- Plutus.Contracts.Uniswap.Trace
+   -- example emulator trace
+
+-- for the curl stuff you will need to have jq installed which is a super lightweight json parsing library for bash.
